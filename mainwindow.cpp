@@ -111,7 +111,9 @@ void MainWindow::paintEvent(QPaintEvent *event)
     //绘制得分
     painter.setPen(Qt::black);
     painter.setFont(QFont("Arial",14));
-    painter.drawText(QRect(MARGIN*3+AREA_COL*BLOCK_SIZE,MARGIN*2+5*BLOCK_SIZE,BLOCK_SIZE*4,BLOCK_SIZE*4),Qt::AlignCenter,"Score: "+QString::number(score));
+
+    painter.drawText(QRect(MARGIN*3+AREA_COL*BLOCK_SIZE,MARGIN*2+5*BLOCK_SIZE,BLOCK_SIZE*4,BLOCK_SIZE*4),
+                     Qt::AlignCenter,"Score: "+ QString::number(score) +"\n Level: "+ QString::number(level));
 
     //绘制说明图片
     painter.drawImage(QRectF(MARGIN*2+AREA_COL*BLOCK_SIZE, MARGIN*2+12*BLOCK_SIZE,BLOCK_SIZE*5,BLOCK_SIZE*5),
@@ -235,7 +237,7 @@ void MainWindow::GetBorder(int block[4][4],Border &border)
 //    qDebug()<<cur_border.ubound<<cur_border.dbound<<cur_border.lbound<<cur_border.rbound;
 }
 
-Game::Game()
+void MainWindow::InitGame()
 {
     // game_are 重置为0
     for(int i=0;i<AREA_ROW;i++)
@@ -250,6 +252,7 @@ Game::Game()
 
     //分数清0
     score=0;
+    level=1;
 
     //开始游戏
     StartGame();
@@ -479,6 +482,7 @@ void MainWindow::BlockMove(Direction dir)
         }
     }
     score+=line_count*10; //得分
+    level = (score-score%100)/100+1; //每一百分得到一个level
     //判断游戏是否结束
     for(int j=0;j<AREA_COL;j++)
         if(game_area[0][j]==2) //最顶端也有稳定方块
@@ -488,9 +492,11 @@ void MainWindow::BlockMove(Direction dir)
 //音乐开
 void MainWindow::MusicOn()
 {
+    playlist = new QMediaPlaylist;
+    playlist->addMedia(QUrl::fromLocalFile("/Users/larry/tetris/tetris.mp3"));
     player = new QMediaPlayer;
-    //connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-    player->setMedia(QUrl::fromLocalFile("/Users/larry/tetris/tetris.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    player->setPlaylist(playlist);
     player->setVolume(20);
     player->play();
 }

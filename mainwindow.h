@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMediaPlaylist>
 #include <QMediaPlayer>
 #include <QPixmap>
 
@@ -42,10 +43,16 @@ namespace Ui {
 class MainWindow;
 }
 
-class Game
+
+class MainWindow : public QMainWindow
 {
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
     // 游戏功能
-    Game();
     void InitGame(); //初始化
     void StartGame(); //开始游戏
     void GameOver(); //游戏结束
@@ -58,17 +65,7 @@ class Game
     void ConvertStable(int x,int y); //转换为稳定方块
     bool IsCollide(int x,int y, Direction dir); //判断是否会碰撞
     void setlevel(int l);
-
-}
-
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
-
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
+    
     virtual void paintEvent(QPaintEvent *event); //场景刷新
     virtual void timerEvent(QTimerEvent *event); //定时器事件
     virtual void keyPressEvent(QKeyEvent *event); //键盘响应
@@ -79,11 +76,8 @@ public:
 
 private slots:
     void on_actionNew_Game_triggered();
-
     void on_actionQuit_triggered();
-
     void on_actionMusic_On_triggered();
-
     void on_actionMusic_Off_triggered();
 
 private:
@@ -105,6 +99,7 @@ private:
 
     //音乐
     QMediaPlayer* player;
+    QMediaPlaylist *playlist;
 
 };
 

@@ -118,7 +118,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     //绘制说明图片
     painter.drawImage(QRectF(MARGIN*2+AREA_COL*BLOCK_SIZE, MARGIN*2+12*BLOCK_SIZE,BLOCK_SIZE*5,BLOCK_SIZE*5),
-                      QImage("/Users/larry/tetris/keyboard.png"));
+                      QImage("/Users/larry/tetris/media/keyboard.png"));
 
 
     //绘制下落方块和稳定方块,注意方块边线的颜色是根据setPen来的，默认黑色
@@ -294,7 +294,7 @@ void MainWindow::GameOver()
 
     //播放game_over
     game_over_player = new QMediaPlayer;
-    game_over_player->setMedia(QUrl::fromLocalFile("/Users/larry/tetris/game_over.mp3"));
+    game_over_player->setMedia(QUrl::fromLocalFile("/Users/larry/tetris/media/game_over.mp3"));
     game_over_player->setVolume(40);
     game_over_player->play();
 
@@ -471,6 +471,7 @@ void MainWindow::BlockMove(Direction dir)
     default:
         break;
     }
+
     //处理消行，整个场景上面的行依次下移
     int i=AREA_ROW-1;
     int line_count=0; //记消行数
@@ -492,6 +493,8 @@ void MainWindow::BlockMove(Direction dir)
             line_count++;//每次增加消行的行数
         }
     }
+
+
     score+=line_count*10; //得分
     level = (score-score%100)/100+1; //每一百分得到一个level
     //判断游戏是否结束
@@ -504,7 +507,7 @@ void MainWindow::BlockMove(Direction dir)
 void MainWindow::MusicOn()
 {
     playlist = new QMediaPlaylist;
-    playlist->addMedia(QUrl::fromLocalFile("/Users/larry/tetris/tetris.mp3"));
+    playlist->addMedia(QUrl::fromLocalFile("/Users/larry/tetris/media/tetris.mp3"));
     player = new QMediaPlayer;
     playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
     player->setPlaylist(playlist);

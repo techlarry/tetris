@@ -99,6 +99,7 @@ private:
 
     //音乐
     QMediaPlayer* player;
+    QMediaPlayer* game_over_player;
     QMediaPlaylist *playlist;
 
 };

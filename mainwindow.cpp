@@ -8,6 +8,7 @@
 #include <QKeyEvent>
 #include <QRectF>
 #include <QChar>
+#include <unistd.h>
 
 //定义图案代码和边界
 //田字
@@ -291,6 +292,15 @@ void MainWindow::GameOver()
     //关闭声音
     MusicOff();
 
+    //播放game_over
+    game_over_player = new QMediaPlayer;
+    game_over_player->setMedia(QUrl::fromLocalFile("/Users/larry/tetris/game_over.mp3"));
+    game_over_player->setVolume(40);
+    game_over_player->play();
+
+    sleep(0.5);
+
+
     //游戏结束停止计时器
     killTimer(game_timer);
     killTimer(paint_timer);
@@ -315,6 +325,7 @@ void MainWindow::GameOver()
         QApplication::exit();
         break;
     }
+
 
 }
 

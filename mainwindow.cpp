@@ -83,6 +83,13 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    //音乐
+    if (player!=NULL)
+        free(player);
+    if (game_over_player!=NULL)
+        free(game_over_player);
+    if (playlist!=NULL)
+        free(playlist);
 }
 
 //拷贝方块图案
